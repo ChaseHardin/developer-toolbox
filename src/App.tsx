@@ -23,41 +23,59 @@ const App = () => {
 
 export default App;
 
+const Toast = () => {
+  return (
+    <div className="fixed bottom-4 right-4 bg-teal-500 p-4 w-60 rounded-lg shadow-lg text-center">
+      Copied guid to clipboard
+    </div>
+  );
+};
+
 const GuidGenerator = () => {
   const [generatedGuid, setGeneratedGuid] = useState<string>(uuidv4());
+  const [showToast, setShowToast] = useState<boolean>();
 
   const onRegenerate = useCallback(() => {
     setGeneratedGuid(uuidv4());
   }, []);
 
   const onCopy = useCallback(async () => {
+    setShowToast(true);
     await navigator.clipboard.writeText(generatedGuid);
+
+    const timerId = setTimeout(() => {
+      setShowToast(false);
+    }, 1000);
+    return () => clearTimeout(timerId);
   }, [generatedGuid]);
 
   return (
-    <form className="w-full">
-      <div className="flex items-center border-b border-teal-500 py-2 w-full">
-        <input
-          type="text"
-          disabled={true}
-          className="appearance-none bg-transparent border-none text-gray-400 mr-3 py-1 px-2 leading-tight focus:outline-none w-full"
-          value={generatedGuid}
-        />
-        <button
-          type="button"
-          className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
-          onClick={onRegenerate}
-        >
-          <ArrowPathIcon className="h-6 w-6" />
-        </button>
-        <button
-          type="button"
-          className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
-          onClick={onCopy}
-        >
-          <ClipboardIcon className="h-6 w-6" />
-        </button>
-      </div>
-    </form>
+    <>
+      <form className="w-full">
+        <div className="flex items-center border-b border-teal-500 py-2 w-full">
+          <input
+            type="text"
+            disabled={true}
+            className="appearance-none bg-transparent border-none text-gray-400 mr-3 py-1 px-2 leading-tight focus:outline-none w-full"
+            value={generatedGuid}
+          />
+          <button
+            type="button"
+            className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+            onClick={onRegenerate}
+          >
+            <ArrowPathIcon className="h-6 w-6" />
+          </button>
+          <button
+            type="button"
+            className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+            onClick={onCopy}
+          >
+            <ClipboardIcon className="h-6 w-6" />
+          </button>
+        </div>
+      </form>
+      {showToast && <Toast />}
+    </>
   );
 };
