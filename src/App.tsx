@@ -5,17 +5,15 @@ import { useCallback, useState } from "react";
 
 const App = () => {
   return (
-    <div className="h-screen w-full flex items-center justify-center bg-zinc-800">
-      <div className="w-full flex flex-col items-center">
-        <div className="flex flex-col gap-1 items-center">
-          <div className="text-8xl">🧰</div>
-          <h1 className="text-5xl font-bold text-zinc-400">
-            developer.toolbox
-          </h1>
-        </div>
-        <div className="w-1/4">
-          <GuidGenerator />
-        </div>
+    <div className="h-screen bg-charcoal-900 flex flex-col">
+      <div className="flex gap-4 p-4">
+        <div className="text-5xl">🧰</div>
+        <h1 className="text-5xl text-green-500 underline underline-offset-2">
+          developer.toolbox
+        </h1>
+      </div>
+      <div className="h-screen w-full flex justify-center items-center">
+        <GuidGenerator />
       </div>
     </div>
   );
@@ -25,8 +23,9 @@ export default App;
 
 const Toast = () => {
   return (
-    <div className="fixed bottom-4 right-4 bg-teal-500 p-4 w-60 rounded-lg shadow-lg text-center">
-      Copied guid to clipboard
+    <div className="fixed bottom-4 right-4 bg-green-500 p-4 w-60 rounded-lg shadow-lg text-center text-green-900 flex gap-1">
+      <ClipboardIcon className="h-6 w-6" />
+      Copied to clipboard
     </div>
   );
 };
@@ -45,14 +44,14 @@ const GuidGenerator = () => {
 
     const timerId = setTimeout(() => {
       setShowToast(false);
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timerId);
   }, [generatedGuid]);
 
   return (
-    <>
+    <div className="w-full lg:w-1/4">
       <form className="w-full">
-        <div className="flex items-center border-b border-teal-500 py-2 w-full">
+        <div className="flex items-center border-b border-green-500 py-2 w-full">
           <input
             type="text"
             disabled={true}
@@ -61,14 +60,14 @@ const GuidGenerator = () => {
           />
           <button
             type="button"
-            className="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded"
+            className="flex-shrink-0 bg-green-500 hover:bg-green-700 border-green-500 hover:border-green-700 text-sm border-4 text-white py-1 px-2 rounded"
             onClick={onRegenerate}
           >
             <ArrowPathIcon className="h-6 w-6" />
           </button>
           <button
             type="button"
-            className="flex-shrink-0 border-transparent border-4 text-teal-500 hover:text-teal-800 text-sm py-1 px-2 rounded"
+            className="flex-shrink-0 border-transparent border-4 text-green-500 hover:text-green-800 text-sm py-1 px-2 rounded"
             onClick={onCopy}
           >
             <ClipboardIcon className="h-6 w-6" />
@@ -76,6 +75,6 @@ const GuidGenerator = () => {
         </div>
       </form>
       {showToast && <Toast />}
-    </>
+    </div>
   );
 };
