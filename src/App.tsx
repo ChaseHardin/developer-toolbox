@@ -8,8 +8,8 @@ const App = () => {
     <div className="h-screen bg-charcoal-900 flex flex-col">
       <div className="flex justify-between p-4">
         <div className="flex gap-4">
-          <div className="text-5xl">🧰</div>
-          <h1 className="text-5xl text-green-500 underline underline-offset-2">
+          <div className="text-4xl">🧰</div>
+          <h1 className="text-4xl font-custom-font text-green-500">
             developer.toolbox
           </h1>
         </div>
@@ -26,7 +26,7 @@ export default App;
 
 const Toast = () => {
   return (
-    <div className="fixed bottom-4 right-4 bg-green-500 p-4 w-60 rounded-lg shadow-lg text-center text-green-900 flex gap-1">
+    <div className="fixed font-custom-font bottom-4 right-4 bg-green-500 p-4 w-70 rounded-lg shadow-lg text-center text-green-900 flex gap-1">
       <ClipboardIcon className="h-6 w-6" />
       Copied to clipboard
     </div>
@@ -38,6 +38,7 @@ const GuidGenerator = () => {
   const [showToast, setShowToast] = useState<boolean>();
 
   const onRegenerate = useCallback(() => {
+    setShowToast(false);
     setGeneratedGuid(uuidv4());
   }, []);
 
@@ -101,5 +102,9 @@ const Clock = () => {
   const ampm = time.getHours() >= 12 ? "pm" : "am";
   const formattedTime = `${hours}:${minutes}:${seconds}${ampm}`;
 
-  return <h1 className="text-4xl text-green-500">{formattedTime}</h1>;
+  return (
+    <h1 className="text-4xl text-green-500 font-custom-font">
+      {formattedTime}
+    </h1>
+  );
 };

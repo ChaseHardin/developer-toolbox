@@ -10,6 +10,9 @@ export default {
           500: "#6BDA69",
         },
       },
+      fontFamily: {
+        "custom-font": ['"IBM Plex Mono"', "monospace"]
+      },
     },
   },
   plugins: [],
