@@ -1,16 +1,19 @@
 import { ArrowPathIcon, ClipboardIcon } from "@heroicons/react/24/outline";
 import { v4 as uuidv4 } from "uuid";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const App = () => {
   return (
     <div className="h-screen bg-charcoal-900 flex flex-col">
-      <div className="flex gap-4 p-4">
-        <div className="text-5xl">🧰</div>
-        <h1 className="text-5xl text-green-500 underline underline-offset-2">
-          developer.toolbox
-        </h1>
+      <div className="flex justify-between p-4">
+        <div className="flex gap-4">
+          <div className="text-5xl">🧰</div>
+          <h1 className="text-5xl text-green-500 underline underline-offset-2">
+            developer.toolbox
+          </h1>
+        </div>
+        <Clock />
       </div>
       <div className="h-screen w-full flex justify-center items-center">
         <GuidGenerator />
@@ -77,4 +80,26 @@ const GuidGenerator = () => {
       {showToast && <Toast />}
     </div>
   );
+};
+
+const Clock = () => {
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  const hours = String(time.getHours() % 12 || 12).padStart(2, "0");
+  const minutes = String(time.getMinutes()).padStart(2, "0");
+  const seconds = String(time.getSeconds()).padStart(2, "0");
+  const ampm = time.getHours() >= 12 ? "pm" : "am";
+  const formattedTime = `${hours}:${minutes}:${seconds}${ampm}`;
+
+  return <h1 className="text-4xl text-green-500">{formattedTime}</h1>;
 };
